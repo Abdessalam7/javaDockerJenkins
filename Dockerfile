@@ -1,5 +1,11 @@
-# Use official Maven image as base
-FROM maven:3.8.3-openjdk-11
+# Use the official Jenkins LTS image as the base
+FROM jenkins/jenkins:lts
 
-# Switch to root user to install additional software (if needed)
+# Switch to the root user to install packages
 USER root
+
+# Install Maven
+RUN apt-get update && apt-get install -y maven
+
+# Switch back to the Jenkins user
+USER jenkins
