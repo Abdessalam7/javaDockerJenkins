@@ -1,5 +1,4 @@
 node('agent-java'){
-        stages {
             stage('Checkout') {
                 steps {
                     // Clone the GitHub repository
@@ -23,17 +22,4 @@ node('agent-java'){
                     sh 'mvn test'
                 }
             }
-        }
-
-        post {
-            success {
-                echo 'Build and test successful!'
-                // You might also trigger deployment steps here if needed
-            }
-
-            failure {
-                echo 'Build or test failed!'
-            }
-        }
-
 }
