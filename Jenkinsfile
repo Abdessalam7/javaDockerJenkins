@@ -1,4 +1,4 @@
-node('AgentJava'){
+node('agent-java'){
     stages {
         stage('Checkout') {
             steps {
