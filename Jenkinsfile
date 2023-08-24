@@ -1,22 +1,39 @@
 node('agent-java'){
-    stages {
-        stage('Checkout') {
-                    steps {
-                        // Clone the GitHub repository
-                        sh 'git clone https://github.com/Abdessalam7/javaDockerJenkins.git'
+        stages {
+            stage('Checkout') {
+                steps {
+                    // Clone the GitHub repository
+                    script {
+                        def repoUrl = 'https://github.com/Abdessalam7/javaDockerJenkins.git'
+                        checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: repoUrl]]])
                     }
                 }
-        stage('Build') {
-            steps {
-                sh 'mvn clean install'
+            }
+
+            stage('Build') {
+                steps {
+                    // Run Maven to build the project
+                    sh 'mvn clean package'
+                }
+            }
+
+            stage('Test') {
+                steps {
+                    // Run tests using Maven
+                    sh 'mvn test'
+                }
             }
         }
 
-        stage('Test') {
-            steps {
-                // Run tests using Maven
-                sh 'mvn test'
+        post {
+            success {
+                echo 'Build and test successful!'
+                // You might also trigger deployment steps here if needed
+            }
+
+            failure {
+                echo 'Build or test failed!'
             }
         }
-    }
+
 }
