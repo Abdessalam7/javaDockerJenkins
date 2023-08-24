@@ -16,4 +16,17 @@ node('agent-java'){
                     // Run tests using Maven
                     sh 'mvn test'
             }
+           stage('Test Coverage') {
+                   script {
+                       // Run tests with coverage analysis
+                       sh 'mvn jacoco:prepare-agent test jacoco:report'
+                   }
+
+                   post {
+                       always {
+                           // Archive the generated coverage reports
+                           archiveArtifacts artifacts: '**/target/site/jacoco/index.html', allowEmptyArchive: true
+                       }
+                   }
+           }
 }
