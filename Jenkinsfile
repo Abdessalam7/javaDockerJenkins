@@ -38,19 +38,19 @@ node('agent-java'){
                     // Run tests using Maven
                     sh 'mvn test'
             }
-            stage('Deploy to Nexus') {
-                script {
-                    def nexusUrl = 'http://localhost:8085/repository/maven-snapshots/'
+            //stage('Deploy to Nexus') {
+            //    script {
+            //        def nexusUrl = 'http://localhost:8085/repository/maven-snapshots/'
 
                     // Deploy to Nexus using Maven
-                    sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl}"
-                    }
-                }
+            //        sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl}"
+            //        }
+            //    }
 
-           stage('Coverage') {
-                   script {
-                       // Run tests with coverage analysis
-                       sh 'mvn jacoco:prepare-agent test jacoco:report'
-                   }
-           }
+           //stage('Coverage') {
+           //        script {
+           //           // Run tests with coverage analysis
+           //            sh 'mvn jacoco:prepare-agent test jacoco:report'
+           //        }
+           //}
 }
