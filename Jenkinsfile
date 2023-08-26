@@ -46,4 +46,13 @@ node('agent-java'){
                        sh 'mvn jacoco:prepare-agent test jacoco:report'
                    }
            }
+
+           stage('Deploy to Nexus') {
+                       script {
+                           def nexusUrl = 'http://localhost:8081/repository/maven-snapshots/'
+
+                           // Deploy to Nexus using Maven
+                           sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl}"
+                       }
+               }
 }
