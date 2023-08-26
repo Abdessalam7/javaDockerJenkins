@@ -18,13 +18,16 @@ node('agent-java'){
                     )
 
                       echo "Selected branch: $selectedBranch"
+
+                      // Assign the selected branch to a variable
+                      env.SELECTED_BRANCH = selectedBranch
                 }
             }
             stage('Checkout') {
                     // Clone the GitHub repository
                     script {
                         def projectUrl = 'https://github.com/Abdessalam7/javaDockerJenkins.git'
-                        checkout([$class: 'GitSCM', branches: [[name: "refs/heads/$BRANCH"]], userRemoteConfigs: [[url: projectUrl]]])
+                        checkout([$class: 'GitSCM', branches: [[name: "refs/heads/${env.SELECTED_BRANCH}"]], userRemoteConfigs: [[url: projectUrl]]])
                     }
             }
 
