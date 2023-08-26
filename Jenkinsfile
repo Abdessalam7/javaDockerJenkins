@@ -1,22 +1,23 @@
 node('agent-java'){
             stage('Fetch Branches'){
                 script {
-                    def projectUrl = 'https://github.com/Abdessalam7/javaDockerJenkins.git'
+                       def projectUrl = 'https://github.com/Abdessalam7/javaDockerJenkins.git'
 
-                                        // Fetch branch names from GitHub using Git command
-                                        def branches = sh(script: "git ls-remote --heads ${projectUrl} | cut -f2 | sed 's|refs/heads/||'", returnStdout: true).trim().split('\n')
+                       // Fetch branch names from GitHub using Git command
+                       def branches = sh(script: "git ls-remote --heads ${projectUrl} | cut -f2 | sed 's|refs/heads/||'", returnStdout: true).trim().split('\n')
 
-                                        // Define choices for the input step
-                                        def branchChoices = branches.collect { choice(name: it, value: it) }
+                       // Define choices for the input step
+                       def branchChoices = branches.collect { choice(name: it, value: it) }
 
-                                        // Display branch selection input to the user
-                                        def selectedBranch = input(
-                                            id: 'branchInput',
-                                            message: 'Select the branch to build:',
-                                            parameters: [choice(choices: branchChoices, description: 'Branch to build')]
-                                            )
-                                            echo "Selected branch: $selectedBranch"
-                                        }
+                       // Display branch selection input to the user
+                       def selectedBranch = input(
+                       id: 'branchInput',
+                       message: 'Select the branch to build:',
+                       parameters: [choice(choices: branchChoices, description: 'Branch to build', name: 'BRANCH')]
+                   )
+
+                      echo "Selected branch: $selectedBranch"
+                }
             }
             stage('Checkout') {
                     // Clone the GitHub repository
