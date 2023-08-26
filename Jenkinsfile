@@ -14,6 +14,8 @@ node('agent-java'){
                                             id: 'branchInput',
                                             message: 'Select the branch to build:',
                                             parameters: [choice(choices: branchChoices, description: 'Branch to build')]
+                                            )
+                                            echo "Selected branch: $selectedBranch"
                                         }
             }
             stage('Checkout') {
