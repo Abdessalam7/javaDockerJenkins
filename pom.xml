@@ -13,7 +13,8 @@
     <distributionManagement>
         <snapshotRepository>
             <id>nexus-snapshots</id>
-            <url>http://localhost:8081/repository/maven-snapshots/</url>
+            <url>http://localhost:8085/repository/maven-snapshots/</url>
+            <!-- a4ed94fc-126f-4270-8f27-de3fc1d4ad6c -->
         </snapshotRepository>
     </distributionManagement>
 
@@ -91,7 +92,7 @@
                 <artifactId>maven-deploy-plugin</artifactId>
                 <version>${maven-deploy-plugin-version}</version>
                 <configuration>
-                    <skip>true</skip>
+                    <skip>false</skip>
                 </configuration>
             </plugin>
         </plugins>
