@@ -46,6 +46,7 @@ node('agent-java'){
                     sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl}"
                     }
                 }
+
            stage('Coverage') {
                    script {
                        // Run tests with coverage analysis
