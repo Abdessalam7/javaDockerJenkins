@@ -40,4 +40,5 @@ node('docker'){
             docker.withRegistry('', 'dockerhubcreds'){
                 dockerImage.push();
             }
+            }
 }
