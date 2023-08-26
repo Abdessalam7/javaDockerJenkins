@@ -17,10 +17,10 @@ node('agent-java'){
                         parameters: [choice(choices: formattedBranchNames, description: 'Branch to build', name: 'BRANCH')]
                     )
 
-                      echo "Selected branch: $selectedBranch"
+                    echo "Selected branch: $selectedBranch"
 
-                      // Assign the selected branch to a variable
-                      env.SELECTED_BRANCH = selectedBranch
+                    // Assign the selected branch to a variable
+                    env.SELECTED_BRANCH = selectedBranch
                 }
             }
             stage('Checkout') {
@@ -30,29 +30,26 @@ node('agent-java'){
                         checkout([$class: 'GitSCM', branches: [[name: "refs/heads/${env.SELECTED_BRANCH}"]], userRemoteConfigs: [[url: projectUrl]]])
                     }
             }
-
             stage('Build') {
                     // Run Maven to build the project
                     sh 'mvn clean package'
             }
-
             stage('Test') {
                     // Run tests using Maven
                     sh 'mvn test'
             }
-           stage('Test Coverage') {
+            stage('Deploy to Nexus') {
+                script {
+                    def nexusUrl = 'http://localhost:8081/repository/maven-snapshots/'
+
+                    // Deploy to Nexus using Maven
+                    sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl}"
+                    }
+                }
+           stage('Coverage') {
                    script {
                        // Run tests with coverage analysis
                        sh 'mvn jacoco:prepare-agent test jacoco:report'
                    }
            }
-
-           stage('Deploy to Nexus') {
-                       script {
-                           def nexusUrl = 'http://localhost:8081/repository/maven-snapshots/'
-
-                           // Deploy to Nexus using Maven
-                           sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl}"
-                       }
-               }
 }
