@@ -1,4 +1,6 @@
-node('agent-java'){
+def dockerImage;
+
+node('docker'){
             stage('Fetch Branches'){
                 script {
                     def projectUrl = 'https://github.com/Abdessalam7/javaDockerJenkins.git'
@@ -30,29 +32,12 @@ node('agent-java'){
                         checkout([$class: 'GitSCM', branches: [[name: "refs/heads/${env.SELECTED_BRANCH}"]], userRemoteConfigs: [[url: projectUrl]]])
                     }
             }
-            stage('Build') {
-                    // Run Maven to build the project
-                    sh 'mvn clean package'
+            stage ('Build the Image'){
+            dockerImage = docker.build('mohammedbenkahoul/agent-java:v' + env.BUILD_NUMBER, '.');
             }
-            stage('Test') {
-                    // Run tests using Maven
-                    sh 'mvn test'
+            stage('Push the image'){
+            //docker.withRegistry('', ) => dockerhub
+            docker.withRegistry('', 'dockerhubcreds'){
+                dockerImage.push();
             }
-
-           //stage('Coverage') {
-           //        script {
-           //           // Run tests with coverage analysis
-           //            sh 'mvn jacoco:prepare-agent test jacoco:report'
-           //        }
-           //}
-           
-           stage('Deploy to Nexus') {
-           script {
-               def nexusUrl = 'http://localhost:8085/repository/maven-snapshots/'
-           
-                               // Deploy to Nexus using Maven
-               sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl} \
-               -Dusername=admin -Dpassword=a4ed94fc-126f-4270-8f27-de3fc1d4ad6c"
-               }
-           }
 }
