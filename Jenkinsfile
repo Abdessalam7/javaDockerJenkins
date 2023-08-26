@@ -18,8 +18,7 @@ node('agent-java'){
             stage('Checkout') {
                     // Clone the GitHub repository
                     script {
-                        def repoUrl = 'https://github.com/Abdessalam7/javaDockerJenkins.git'
-                        checkout([$class: 'GitSCM', branches: [[name: '*/main']], userRemoteConfigs: [[url: repoUrl]]])
+                    checkout([$class: 'GitSCM', branches: [[name: "refs/heads/$selectedBranch"]], userRemoteConfigs: [[url: projectUrl]]])
                     }
             }
 
