@@ -47,7 +47,7 @@ node('agent-java'){
            //}
 
            stage('Archive') {
-                archiveArtifacts artifacts: 'target/javaDockerJenkins-1.0-SNAPSHOT.jar'
+                archiveArtifacts artifacts: 'target/javaDockerJenkins-1.1-SNAPSHOT.jar'
            }
            
            stage('Deploy to Nexus') {
