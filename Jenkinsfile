@@ -45,6 +45,10 @@ node('agent-java'){
            //            sh 'mvn jacoco:prepare-agent test jacoco:report'
            //        }
            //}
+
+           stage('Archive') {
+                archiveArtifacts artifacts: 'target/javaDockerJenkins-1.0-SNAPSHOT.jar'
+           }
            
            stage('Deploy to Nexus') {
            script {
