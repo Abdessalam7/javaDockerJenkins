@@ -52,11 +52,11 @@ node('agent-java'){
            
            stage('Deploy to Nexus') {
            script {
-               def nexusUrl = 'http://localhost:8085/repository/maven-snapshots/'
+               def nexusUrl = 'http://localhost:8081/repository/maven-snapshots/'
            
                                // Deploy to Nexus using Maven
                sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl} \
-               -Dusername=admin -Dpassword=a4ed94fc-126f-4270-8f27-de3fc1d4ad6c"
+               -Dusername=admin -Dpassword=ee1c958e-cbeb-43e0-8ee1-ab70456609d6"
                }
            }
 }
