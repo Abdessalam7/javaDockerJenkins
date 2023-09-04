@@ -40,7 +40,7 @@ node('agent-java'){
             }
             stage('Deploy to Nexus') {
                 script {
-                    def nexusUrl = 'http://localhost:8085/repository/maven-snapshots/'
+                    def nexusUrl = 'http://localhost:8081/repository/maven-snapshots/'
 
                     // Deploy to Nexus using Maven
                     sh "mvn deploy -DskipTests -DselectedBranch=${env.SELECTED_BRANCH} -DaltDeploymentRepository=nexus::default::${nexusUrl}"
